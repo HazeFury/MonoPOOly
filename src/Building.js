@@ -6,4 +6,4 @@ class Building {
   }
 }
 
-module.exports = Building;
+export default Building;
