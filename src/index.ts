@@ -1,6 +1,11 @@
 import Player from "./classes/Player.ts";
 import Building from "./classes/Building.ts";
+import Screen from "./classes/Screen.ts";
 import { input, select, Separator } from "@inquirer/prompts";
+
+const screen = new Screen();
+await screen.launchStarter();
+await screen.showRules();
 
 const player1 = new Player("marco");
 
