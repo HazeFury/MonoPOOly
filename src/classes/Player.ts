@@ -1,13 +1,17 @@
 import type Building from "./Building";
 
 class Player {
+	id: string;
 	name: string;
 	wallet: number;
 	places: Building[];
-	constructor(name: string) {
+	color: string;
+	constructor(id: string, name: string, color: string) {
+		this.id = id;
 		this.name = name;
 		this.wallet = 400000;
 		this.places = [];
+		this.color = color;
 	}
 	buyBuilding(building: Building) {
 		if (building.price <= this.wallet) {

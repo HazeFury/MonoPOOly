@@ -1,20 +1,53 @@
 import Player from "./classes/Player.ts";
 import Building from "./classes/Building.ts";
 import Screen from "./classes/Screen.ts";
-import { input, select, Separator } from "@inquirer/prompts";
+import Game from "./classes/Game.ts";
+import { input, confirm } from "@inquirer/prompts";
+import chalk from "chalk";
 
 const screen = new Screen();
+const game = new Game();
+const log = console.log;
+
+// ************************  INITIALIZATION  ************************ //
 await screen.launchStarter();
-await screen.showRules();
+await game.menu();
 
-const player1 = new Player("marco");
+const numberOfPlayer = await game.selectPlayers();
 
-const appartement = new Building("appartement", 100000, 10000);
-const house = new Building("maison", 300000, 50000);
+const players: Player[] = [];
 
-console.log(player1);
-console.log(appartement);
-console.log(house);
+const existingColors: string[] = [];
+
+for (let i = 0; i < numberOfPlayer; i++) {
+	const name = await input({ message: `Enter name of player ${i + 1}` });
+
+	const color = await game.chooseColor(i, existingColors);
+	// on each iteration, send an array with colors already taken by previous users
+	//  to disable these colors
+	existingColors.push(color);
+
+	players.push(new Player(`Player ${i + 1}`, name, color));
+}
+
+log(chalk.bgGreen.bold("Summary :\n"));
+screen.showPlayers(players);
+const gameIsReadyToStart = await confirm({ message: "Continue ?" });
+
+// if (gameIsReadyToStart === true) {
+// 	// launch the game
+// }
+
+// ************************  LAUNCH THE GAME  ************************ //
+
+// const player1 = new Player("marco");
+
+// const appartement = new Building("appartement", 100000, 10000);
+// const house = new Building("maison", 300000, 50000);
+
+// console.log(player1);
+// console.log(appartement);
+// console.log(house);
 
 // player1.buyBuilding(appartement);
 // player1.buyBuilding(house);

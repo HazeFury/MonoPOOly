@@ -1,7 +1,10 @@
 import figlet from "figlet";
 import chalk from "chalk";
+import { table } from "console-table-without-index";
+import type Player from "./Player";
 
-class Game {
+// Screen class is used to display the gameplay in the terminal !
+class Screen {
 	async launchStarter() {
 		const log = console.log;
 
@@ -24,7 +27,7 @@ class Game {
 				log("\n");
 				log(
 					chalk.blue(
-						"                                                      version 0.1\n",
+						"______________________________________________________version 0.1\n",
 					),
 				);
 				log(chalk.red.bold.underline.italic("Welcome on MonoPOOly Game !\n"));
@@ -54,6 +57,25 @@ class Game {
 			"\n-----------------------------------------------------------------------\n",
 		);
 	}
+
+	showPlayers(players: Player[]) {
+		players.forEach((player) => {
+			const toto = [];
+			toto.push(player);
+			// console.table(chalk.red(toto));
+			console.log(
+				chalk.hex(player.color)(
+					table(toto, ["id", "name", "wallet", "places"]),
+				),
+			);
+		});
+		this.printHyphens();
+		console.log(
+			chalk.bgGreen.bold(
+				"==> Press ENTER to start the game or 'n' to change settings\n",
+			),
+		);
+	}
 }
 
-export default Game;
+export default Screen;
